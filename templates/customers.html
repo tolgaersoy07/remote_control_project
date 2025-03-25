@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Üye Listesi</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+     
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/customers.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forward_button.css') }}">    
+</head>
+<body>
+    <div id="notification" class="notification">
+        <h3>Kullanıcı Silme İşlemi</h3>
+        <p>Silme işlemi sonucunda aşağıdaki öğeler silinecektir.</p>
+        <ul>
+            <p>&#9679; Seçtiğiniz üye</p>
+            <p> &#9679; Seçtiğiniz üyenin araçları</p>
+            <p>Eğer varsa;</p>
+            <p> &#9679; Seçtiğiniz üyenin çocukları</p>
+            <p> &#9679; Seçtiğiniz üyenin çocuklarının araçları</p>
+            <p>Bu işlem ciddi bir işlem olup işleminizi tekrar kontrol etmeniz önerilir. Bu işlemi onaylamak istediğinizden emin misiniz?</p>
+        </ul>
+        <div class="button-container">
+            <button id="confirmBtn">Evet</button>
+            <button id="cancelBtn">Hayır</button>
+        </div>
+    </div>
+    
+
+    <form id="logoutForm" method="POST" action="/logout">
+        <button type="submit">{{ session['userID'] }}: Çıkış Yap</button>
+    </form>
+    <form id="backForm" method="POST" action="/turn_back">
+        <button id="backButton">Geri Git</button>
+        <input type="hidden" name="hidden_data" id="hiddenData" value="admin.html">
+    </form>
+    
+    <div class="main-container">
+        <div class="header">
+            <h1 style="text-align: center;">ADMİN YÖNETİM PANELİ</h1>
+        </div>
+        <div class="content">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Arama...">
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="table-container">
+                <form action="/go_page" method="POST">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Kullanıcı Adı</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Kullanıcı Tipi</th>
+                                <th>Özellik</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table-body">
+                            {% for key, value in result.items() %}
+                            <tr style="background-color: aqua;">
+                                {% if value.userType == "2" %}
+                                <td>📁</td>
+                                <td>{{ value.userID }}</td>
+                                <td>{{ value.name }}</td>
+                                <td>{{ value.surName }}</td>
+                                <td>{{ value.userType }}</td>
+                                <td>
+                                    <button type="button" onclick="showDetails({{value}})">Göster</button>
+                                    <form class="action-form" action="/go_page" method="POST" style="display:inline;">
+                                        <input type="hidden" name="userID" value="{{value.userID}}">
+                                        <button type="submit" name="action" value="go">Git</button>
+                                    </form>
+                                    <form class="action-form" action="/delete_user" method="POST" style="display:inline;">
+                                        <input type="hidden" name="userID" value="{{value.userID}}">
+                                        <button type="button" onclick="confirmDelete('{{value.userID}}')">Sil</button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% for item in parent[key] %}
+                            <tr>
+                                <td>&#128204;</td>
+                                <td>{{ result[item].userID }}</td>
+                                <td>{{ result[item].name }}</td>
+                                <td>{{ result[item].surName }}</td>
+                                <td>{{ result[item].userType }}</td>
+                                <td>
+                                    <button type="button" onclick="showDetails({{result[item]}})">Göster</button>
+                                    <form class="action-form" action="/go_page" method="POST" style="display:inline;">
+                                        <input type="hidden" name="userID" value="{{result[item].userID}}">
+                                        <button type="submit" name="action" value="go">Git</button>
+                                    </form>
+                                    <form class="action-form" action="/delete_user" method="POST" style="display:inline;">
+                                        <input type="hidden" name="userID" value="{{result[item].userID}}">
+                                        <button type="button" onclick="confirmDelete('{{result[item].userID}}')">Sil</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form action="/update_profile" method="post">
+                        <ul>
+                            <p style="text-align: center;color:green;font-size:1.3em;">{{output}}</p>
+                            <li><label for="name">Ad:</label> <input type="text" id="name" name="name"></li>
+                            <li><label for="surName">Soyad:</label> <input type="text" id="surName" name="surName"></li>
+                            <li><label for="userID">Kullanıcı Adı:</label> <input type="text" id="userID" name="userID" readonly></li>
+                            <li><label for="password">Şifre:</label> <input type="text" id="password" name="password"></li>
+                            <li><label for="pNumber">Telefon No:</label> <input type="text" id="pNumber" name="pNumber"></li>
+                            <li><label for="eMail">E-Posta:</label> <input type="email" id="eMail" name="eMail"></li>
+                            <li><label for="tcNumber">TC No:</label> <input type="text" id="tcNumber" name="tcNumber"></li>
+                            <li><label for="userAddress">Adres:</label> <textarea id="userAddress" name="userAddress"></textarea></li>
+                            <li><label for="status">Durum:</label> <input type="text" id="status" name="status" readonly></li>
+                            <li><label for="cName">Şirket Adı:</label> <input type="text" id="cName" name="cName"></li>
+                            <li><label for="cNumber">Şirket Telefon No:</label> <input type="text" id="cNumber" name="cNumber"></li>
+                            <li><label for="taxNumber">Vergi No:</label> <input type="text" id="taxNumber" name="taxNumber"></li>
+                            <li><label for="cAddress">Şirket Adresi:</label> <textarea id="cAddress" name="cAddress"></textarea></li>
+                            <li><label for="userParent">Kullanıcı Ebeveyni:</label> <input type="text" id="userParent" name="userParent" readonly></li>
+                            <li><label for="userType">Kullanıcı Tipi:</label> <input type="text" id="userType" name="userType" readonly></li>
+                        </ul>
+                        <input type="hidden" name="user_id" value="">
+                        <button type="submit" class="btn-submit">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function confirmDelete(userID) {
+            var notification = document.getElementById('notification');
+            notification.style.display = 'block';
+
+            // Evet butonuna tıklanırsa
+            document.getElementById('confirmBtn').onclick = function() {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/delete_user';
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'userID';
+                input.value = userID;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            };
+
+            // Hayır butonuna tıklanırsa
+            document.getElementById('cancelBtn').onclick = function() {
+                notification.style.display = 'none';
+            };
+        }
+
+         // Arama işlevini ekle
+         document.getElementById('searchInput').addEventListener('input', function() {
+            var searchTerm = this.value.toLowerCase();
+            var rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(function(row) {
+                var cells = row.querySelectorAll('td');
+                var isMatch = Array.from(cells).some(function(cell) {
+                    return cell.textContent.toLowerCase().includes(searchTerm);
+                });
+                
+                row.style.display = isMatch ? '' : 'none';
+            });
+        });
+
+        function showDetails(user) 
+        {
+         
+                document.getElementById('name').value = user.name;
+                document.getElementById('surName').value = user.surName;
+                document.getElementById('userID').value = user.userID;
+                document.getElementById('password').value = user.password;
+                document.getElementById('pNumber').value = user.pNumber;
+                document.getElementById('eMail').value = user.eMail;
+                document.getElementById('tcNumber').value = user.tcNumber;
+                document.getElementById('userAddress').value = user.userAddress;
+                document.getElementById('status').value = user.status;
+                document.getElementById('cName').value = user.cName;
+                document.getElementById('cNumber').value = user.cNumber;
+                document.getElementById('taxNumber').value = user.taxNumber;
+                document.getElementById('cAddress').value = user.cAddress;
+                document.getElementById('userParent').value = user.userParent;
+                document.getElementById('userType').value = user.userType;
+        }
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KURTARMA</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/update_enter_info.css') }}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>KULLANICI BİLGİLERİNİ KURTARMA</h1>
+        <p style="color:green; font-size: 1.2em; font-weight: bold;">{{info}}</p>
+        <p style="color:red; font-size: 1.2em; font-weight: bold;">{{error}}</p>
+        <form id="resetForm" action="/reset" method="post">
+            <div class="options">
+                <button type="button" id="emailOption" class="option-button" onclick="showField('email')">E-Posta ile kurtar</button>
+                <button type="button" id="phoneOption" class="option-button" onclick="showField('phone')">Telefon ile kurtar</button>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="emailInput" name="eMail" class="input-field" placeholder="E-posta adresinizi giriniz" style="display:none;" />
+                <input type="tel" id="phoneInput" name="pNumber" class="input-field" placeholder="Telefon numaranızı giriniz" style="display:none;" />
+            </div>
+
+            <div class="recaptcha-container">
+                <div class="g-recaptcha" data-sitekey="{{data_sitekey}}"></div>
+            </div>
+
+            <button type="submit" class="submit-button">Gönder</button>
+        </form>
+    </div>
+
+    <script>
+        function showField(type) {
+            var emailInput = document.getElementById('emailInput');
+            var phoneInput = document.getElementById('phoneInput');
+
+            if (type === 'email') {
+                emailInput.style.display = 'block';
+                phoneInput.style.display = 'none';
+            } else if (type === 'phone') {
+                emailInput.style.display = 'none';
+                phoneInput.style.display = 'block';
+            }
+        }
+    </script>
+      <h2 style="color:blue;">!!! ANONİM ŞİRKETİ !!!</h2>
+</body>
+</html>

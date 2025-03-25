@@ -1,0 +1,214 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: bisque;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: pink; /* Konteynır rengi pink olarak ayarlandı */
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    color: #007bff;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px; /* Etiket yazı boyutu büyütüldü */
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Daha ince ve estetik bir border */
+    border-radius: 8px; /* Köşe yuvarlaklıkları artırıldı */
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s, background-color 0.3s;
+    background-color: #ffffff; /* Arka plan rengi beyaz yapıldı */
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    background-color: #f0f8ff; /* Seçili durumda arka plan rengi değişir */
+}
+
+button {
+    padding: 10px 20px; /* Buton içi padding artırıldı */
+    font-size: 16px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.dynamic-element {
+    position: relative;
+    padding: 15px; /* Daha fazla padding eklendi */
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+}
+
+.dynamic-element input[type="text"] {
+    border: 1px solid #bbb; /* Daha ince border rengi */
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px; /* Girdi alanı yazı boyutu artırıldı */
+    background-color: #f9f9f9;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #28a745;
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.switch span {
+    margin-left: 10px;
+    color: #555;
+    font-size: 14px;
+}
+
+.removeButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.removeButton:hover {
+    background: darkred;
+}
+
+.removeButton::before {
+    content: "×";
+    font-size: 16px;
+}
+
+/* Gösterge stili */
+.gauge {
+    background-color: white; /* Arka plan rengi beyaz yapıldı */
+}
+
+.delete-btn {
+    color: red;
+    cursor: pointer;
+}
+
+/* İbre için stil */
+.needle {
+    background-color:white;
+    border: 1px solid darkred;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.needle input[type="text"] {
+    margin-bottom: 5px;
+}
+
+/* Select öğesi için stil */
+select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff; /* Arka plan rengi beyaz */
+    color: #333; /* Yazı rengi */
+    width: calc(100% - 24px); /* Tam genişlik, padding ve border hesaplanmış */
+    box-sizing: border-box;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+select:focus {
+    border-color: #007bff; /* Focus olduğunda border rengini mavi yap */
+    background-color: #f0f8ff; /* Focus olduğunda arka plan rengini açık mavi yap */
+    outline: none; /* Focus outline'ını kaldır */
+}

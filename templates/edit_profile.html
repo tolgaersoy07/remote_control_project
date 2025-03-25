@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profil Düzenle</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='styles/edit_profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forward_button.css') }}">
+</head>
+<body>
+    <form id="logoutForm" method="POST" action="/logout">
+        <button type="submit">{{session['userID']}} : Çıkış Yap</button>
+    </form>
+    <form id="backForm" method="POST" action="/turn_back">
+        <button id="backButton">Geri Git</button>
+        <input type="hidden" name="hidden_data" id="hiddenData" value="x.html">
+    </form>
+    <div class="main-container">
+        <div class="header">
+            <h1>Kullanıcı Bilgilerini Güncelleme</h1>
+        </div>
+        <div class="content">
+            <!-- Kart Yapısı Başlıyor -->
+            <form id="updateForm" method="POST" action="/update_profile">
+                <div class="card">
+                    <div class="card-body">
+                        <p style="text-align: center;color:green; font-size: 1.3em;">{{output}}</p>
+                        <ul>
+                            <li><label for="name">Ad:</label> <input type="text" id="name" name="name" value="{{ data.name }}"></li>
+                            <li><label for="surName">Soyad:</label> <input type="text" id="surName" name="surName" value="{{ data.surName }}"></li>
+
+
+                            <li><label for="userID">Kullanıcı Adı:</label> <input type="text" id="userID" name="userID" value="{{ data.userID }}" readonly></li>
+                            <li><label for="password">Şifre:</label> <input type="text" id="password" name="password" value="{{ data.password }}"></li>
+                            <li><label for="pNumber">Telefon No:</label> <input type="text" id="pNumber" name="pNumber" value="{{ data.pNumber }}"></li>
+                            <li><label for="eMail">E-Posta:</label> <input type="email" id="eMail" name="eMail" value="{{ data.eMail }}"></li>
+                            <li><label for="tcNumber">TC No:</label> <input type="text" id="tcNumber" name="tcNumber" value="{{ data.tcNumber }}"></li>
+                            <li><label for="userAddress" style="font-size: 1.2em;">Adres:</label> <textarea id="userAddress" name="userAddress">{{ data.userAddress }}</textarea></li>
+                            <li><label for="status">Durum:</label> <input type="text" id="status" name="status" value="{{ data.status }}" readonly></li>
+                            <li><label for="cName">Şirket Adı:</label> <input type="text" id="cName" name="cName" value="{{ data.cName }}"></li>
+                            <li><label for="cNumber">Şirket Telefon No:</label> <input type="text" id="cNumber" name="cNumber" value="{{ data.cNumber }}"></li>
+                            <li><label for="taxNumber">Vergi No:</label> <input type="text" id="taxNumber" name="taxNumber" value="{{ data.taxNumber }}"></li>
+                            <li><label for="cAddress">Şirket Adresi:</label> <textarea id="cAddress" name="cAddress">{{ data.cAddress }}</textarea></li>
+                            <li><label for="userParent">Kullanıcı Ebeveyni:</label> <input type="text" id="userParent" name="userParent" value="{{ data.userParent }}" readonly></li>
+                            <li><label for="userType">Kullanıcı Tipi:</label> <input type="text" id="userType" name="userType" value="{{ data.userType }}" readonly></li>
+                            <input type="hidden" name="page_info" value="edit_profile.html">
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn-update">Güncelle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.card-body input[type="text"], .card-body textarea').forEach(function(inputElement) {
+                let originalValue = inputElement.value;
+                inputElement.addEventListener('input', function() {
+                    if (this.value !== originalValue) {
+                        this.style.borderColor = 'green';
+                        this.style.borderWidth = '5px';
+                    } else {
+                        this.style.borderColor = '#ddd';
+                        this.style.borderWidth = '1px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

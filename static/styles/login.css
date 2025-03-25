@@ -1,0 +1,91 @@
+body {
+    background-color: bisque;
+    font-family: Arial, sans-serif;
+    margin: 0;
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+hr {
+    width: 100%;
+    border: none; /* Varsayılan kenarlıkları kaldır */
+    height: 5px; /* Çizginin yüksekliği, kalınlık */
+    background-color: black; /* Çizginin rengi */
+    margin: 20px 0; /* Çizgi üst ve alt boşluk */
+}
+
+#error {
+    font-size: 1.3em;
+    color: red;
+    text-align: center;
+}
+
+
+form {
+    width: 100%;
+    max-width: 400px; /* Form genişliği sınırlama */
+    margin: 0 auto;
+}
+
+.form-group {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="url"] {
+    border-color: black;
+    border-radius: 50px;
+    width: 200px;
+    height: 45px;
+    font-size: 1.2em;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+input[type="submit"],
+button {
+    border-radius: 50px;
+    width: 200px;
+    height: 50px;
+    font-size: 1.2em;
+    border-color: black;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: aqua;
+}
+
+
+
+.g-recaptcha {
+    
+    display: flex;
+    margin-left:60px ;
+    align-items: center;
+    justify-content: center;
+}

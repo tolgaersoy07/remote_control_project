@@ -1,0 +1,102 @@
+body {
+    background-color: bisque;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+#error{
+    color: green;
+    text-align: center;
+    font-size:1.5em;
+}
+
+#registrationForm {
+    width: 100%;
+    max-width: 500px; /* Form genişliği sınırlama */
+    margin: 0 auto;
+}
+
+.form-group {
+    font-size: 23px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+label {
+    display: inline-block;
+    width: 150px; /* Label genişliği ayarlandı */
+    text-align: right;
+    margin-right: 10px; /* Label ile input arasına boşluk ekledik */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="url"] {
+    border-color: black;
+    border-radius: 50px;
+    width: calc(100% - 170px); /* Label genişliğini çıkardık */
+    height: 40px;
+    padding: 5px;
+    box-sizing: border-box;
+    display: inline-block; /* Input elemanını yan yana göstermek için */
+}
+
+input[type="submit"] {
+    border-radius: 50px;
+    width: 100%;
+    max-width: 200px;
+    height: 50px;
+    font-size: 1.2em;
+    border-color: black;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+    background-color: aqua;
+}
+
+
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+/* Radyo butonlarını büyütme */
+input[type="radio"] {
+    transform: scale(2); /* Radyo butonunun boyutunu 1.5 kat büyütür */
+}
+/* Seçim kutusunu form öğeleriyle uyumlu hale getirin */
+select {
+    border-color: black;
+    border-radius: 50px;
+    width: calc(100% - 170px); /* Label genişliğini çıkardık */
+    height: 40px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+    display: inline-block; /* Seçim kutusunu yan yana göstermek için */
+}
+
+/* Seçim kutusunun kutu gölgesini ekleyerek daha belirgin hale getirin */
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+

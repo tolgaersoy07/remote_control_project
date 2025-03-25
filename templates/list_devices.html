@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cihaz Listesi</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/list_devices.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forward_button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/button.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='socketIO.js') }}"></script>
+
+ 
+</head>
+<body>
+    <form id="logoutForm" method="POST" action="/logout">
+        <button type="submit">{{session['userID']}}:Çıkış Yap</button>
+    </form>
+    <form id="backForm" method="POST" action="/turn_back">
+        <input type="hidden" name="page_back" value="{{page_name_send}}">
+        <button id="backButton">Geri Git</button>
+        <input type="hidden" name="hidden_data" id="hiddenData" value="admin.html">
+    </form>
+    <h1 style="text-align: center;">ADMİN YÖNETİM PANELİ ARAÇ LİSTESİ</h1>
+
+    <div class="content">
+        <div class="search-container">
+            <input style="width: 400px;" type="text" id="searchInput" placeholder="Arama...">
+        </div>
+    </div>
+
+    <form action="/process_form" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>Bilgi</th>
+                    <th>Veri Girişi</th>
+                    <th>Giriş Açıklama</th>
+                    <th>Giriş PIN</th>
+                    <th>Veri Çıkışı</th>
+                    <th>Çıkış Açıklama</th>
+                    <th>Çıkış PIN</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(array|length) %}
+                <tr>
+                    <td>
+                        <ul>
+                            <li><p>Kullanıcı Adı:{{array[i].userID}}</p></li>
+                            <li><p>Araç Adı:{{array[i].dName}}</p></li>
+                            <li><p>uniqueID:{{array[i].uniqueID}}</p></li>
+                            <li>
+                                <button type="button" class="btn-delete" value="D_{{array[i].uniqueID}}">Delete</button>
+                            </li>
+
+                            <div id="confirmation-dialog-{{array[i].uniqueID}}" class="confirmation-dialog">
+                                <h3>Cihaz Adı: {{array[i].dName}}</h3>
+                                <h3>uniqueID: {{array[i].uniqueID}}</h3>
+                                <h2>Bu cihazı silmek istediğinizden emin misiniz?</h2>
+                                <ul>
+                                    <h3>&#9679; Bu işlem geri döndürülemez olup işleminizi yeniden kontrol etmeniz tavsiye edilir.</h3>
+                                </ul>
+
+                            
+                                
+                                <button type="submit" id="confirm-delete-{{array[i].uniqueID}}" class="confirm" name="D_VALUE" value="{{array[i].uniqueID}}">Evet</button>
+                                <button type="button" id="cancel-delete-{{array[i].uniqueID}}" class="cancel">Hayır</button>
+                            </div>
+
+
+
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for j in range(array[i].data|length) %}
+                            <li>
+                                {% if "BUTTON" in array[i].dtype[j] %}
+                                <div class="container_div">
+                                
+                                    <div class="center_class">
+                                        <p style="margin-bottom:3px;">{{array[i].data[j]}}</p>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="T_{{uniqueID[i].data[j]}}" name="T_{{uniqueID[i].data[j]}}" {% if "True" in array[i].data[j] %} checked {% endif %}/>
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                            <input type="hidden" id="H_{{uniqueID[i].data[j]}}" name="H_{{uniqueID[i].data[j]}}" value="N"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <p>{{array[i].data[j]}} <input type="text" class="input-field" id="input_box" name="TBOX_{{uniqueID[i].data[j]}}"></p>
+            
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                           
+                            {% for j in range(array[i].explain|length) %}
+                            <li>
+                            <p>{{array[i].explain[j]}}<input type="text" class="input-field" id="input_box" name="TBOX_{{uniqueID[i].explain[j]}}"></p>
+                        </li>
+                            {% endfor %}
+                        </ul>
+                    </td> 
+                    <td>
+                        <ul>
+                            {% for j in range(array[i].dpin|length) %}
+                            <li>
+                                <p>{{array[i].dpin[j]}}<input type="text" class="input-field" id="input_box" name="TBOX_{{uniqueID[i].dpin[j]}}"></p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+
+                    <td>
+                        <ul style="list-style-type: none;">
+                            {% for j in range(array[i].gdata|length) %}
+                          
+                                {% if "False" in array[i].gdata[j]%}
+                                <div class="center_pp">
+                                    <p>{{array[i].gdata[j]}}</p>
+                                    
+                                    <div class="center_class">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="T_{{uniqueID[i].gdata[j]}}" name="T_{{uniqueID[i].gdata[j]}}" disabled/>
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                            <input type="hidden" id="H_{{uniqueID[i].gdata[j]}}" name="H_{{uniqueID[i].gdata[j]}}" value="N"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% elif "True" in array[i].gdata[j]%}
+                                <div class="center_pp">
+                                    <p>{{array[i].gdata[j]}}</p>
+                                   
+                                    <div class="center_class">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="T_{{uniqueID[i].gdata[j]}}" name="T_{{uniqueID[i].gdata[j]}}" checked disabled/>
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                            <input type="hidden" id="H_{{uniqueID[i].gdata[j]}}" name="H_{{uniqueID[i].gdata[j]}}" value="N"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% elif "TEXTBOX" in array[i].gtype[j] %}
+                                
+                                <p style="background-color: antiquewhite;" id="{{uniqueID[i].gdata[j]}}" class="blinking-light green">{{array[i].gdata[j]}}</p>
+                               {% else %}
+                               
+                                <div class="center_pp">
+                                    
+                                    <p id="{{uniqueID[i].gdata[j]}}-text" class="blinking-light green">{{array[i].gdata[j]}}</p>
+                                    <div class="progress-container">
+                                        <div id="{{uniqueID[i].gdata[j]}}" class="progress-bar"></div>
+                                        <div id="{{uniqueID[i].gdata[j]}}" class="progress-text"></div>
+                                    </div>
+                                </div>
+                            
+                    
+                             
+
+                                {% endif %}
+                           
+                            {% endfor %}
+                        </ul>
+                    </td>
+
+                    <td>
+                        <ul>
+                            {% for j in range(array[i].gexplain|length) %}
+                            <li>
+                                <p>{{array[i].gexplain[j]}}<input type="text" class="input-field" id="input_box" name="TBOX_{{uniqueID[i].gexplain[j]}}"></p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td> 
+                    <td>
+                        <ul>
+                            {% for j in range(array[i].gpin|length) %}
+                            <li>
+                                <p>{{array[i].gpin[j]}}<input type="text" class="input-field" id="input_box" name="TBOX_{{uniqueID[i].gpin[j]}}"></p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="submit-button" id="saveChangesButton">Değişiklikleri Kaydet</button>
+    </form>
+
+   <script>
+
+function updateValue(uniqueID) {
+    // `hidden` input'un değerini güncelle
+    document.getElementById('hiddenDeleteID_' + uniqueID).value = uniqueID;
+    console.log("Veri güncellendi: " + uniqueID);
+    
+
+    //document.getElementById('saveChangesButton').click();
+}
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Tüm input kutularını seç
+    const inputFields = document.querySelectorAll('.input-field');
+
+    // Her bir input kutusuna olay dinleyici ekle
+    inputFields.forEach(function(inputField) {
+        inputField.addEventListener('input', function() {
+            if (inputField.value.trim() !== '') {
+                inputField.classList.add('active');
+            } else {
+                inputField.classList.remove('active');
+            }
+
+            // Butonun aktif olup olmadığını kontrol et
+            const anyActive = Array.from(inputFields).some(input => input.classList.contains('active'));
+            const submitButton = document.querySelector('.submit-button');
+            if (anyActive) {
+                submitButton.classList.add('active');
+            } else {
+                submitButton.classList.remove('active');
+            }
+        });
+    });
+
+    // Tüm checkbox'ları seç
+    const checkboxes = document.querySelectorAll('.toggle-switch input[type="checkbox"]');
+
+    // Her bir checkbox'a olay dinleyici ekle
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const hiddenInput = checkbox.nextElementSibling.nextElementSibling; // Hidden inputu bul
+            if (checkbox.checked) {
+                hiddenInput.value = "Y1"; // Checkbox işaretliyse, Y1 değeri gönder
+            } else {
+                hiddenInput.value = "Y0"; // Checkbox işaretli değilse, Y0 değeri gönder
+            }
+        });
+    });
+
+    // Arama işlevini ekle
+    document.getElementById('searchInput').addEventListener('input', function() {
+        var searchTerm = this.value.toLowerCase();
+        var rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(function(row) {
+            var cells = row.querySelectorAll('td');
+            var isMatch = Array.from(cells).some(function(cell) {
+                return cell.textContent.toLowerCase().includes(searchTerm);
+            });
+            
+            row.style.display = isMatch ? '' : 'none';
+        });
+    });
+
+    // Delete butonuna tıklanınca açılır pencereyi göster
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function() {
+            const uniqueID = this.value.split('_')[1];
+            const dialog = document.getElementById(`confirmation-dialog-${uniqueID}`);
+            dialog.style.display = 'block'; // İlgili div'i görünür yap
+        });
+    });
+
+    // Hayır butonuna tıklanınca açılır pencereyi gizle
+    document.querySelectorAll('.cancel').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Formun varsayılan işlemini engelle
+            const dialog = button.closest('.confirmation-dialog');
+            dialog.style.display = 'none'; // İlgili div'i gizle
+        });
+    });
+});
+
+
+
+   </script>
+    
+    
+    
+    
+    
+    
+    
+</body>
+</html>

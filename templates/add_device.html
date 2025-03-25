@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araç Oluşturma Paneli</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/add_device.css') }}">  
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forward_button.css') }}">
+</head>
+<body>
+    <form id="backForm" method="POST" action="/turn_back">
+        <button id="backButton">Geri Git</button>
+        <input type="hidden" name="hidden_data" id="hiddenData" value="admin.html">
+    </form>
+    <form id="logoutForm" method="POST" action="/logout">
+        <button type="submit">{{session['userID']}} : Çıkış Yap</button>
+    </form>
+
+    <h1 style="text-align: center; color:blue;">ADMİN YÖNETİM PANELİ</h1>
+    <div class="container">
+        <h3 style="text-align: center; color:crimson;background-color: aqua;">Kullanıcı İçin Araç Ekleme Paneli</h3>
+        <p style="color:green;font-size:1.4em;">{{output}}</p>
+        <!-- Dinamik form -->
+        <form action="{{ url_for('submit_form') }}" method="POST" id="dynamicForm">
+            <div class="form-group">
+                <!-- Kullanıcı Seçim Alanı -->
+                <label for="username">Kullanıcı Seç:</label>
+                <select id="username" name="username" required>
+                    <option value="" disabled selected>Seçim Yapınız</option> <!-- Varsayılan olarak seçilmemiş bir seçenek -->
+                    {% for userID, fullName in array.items() %}
+                        <option value="{{ userID }}">{{ fullName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+    
+            <div class="form-group">
+                <label for="objectName">Cihaz İsmi:</label>
+                <input type="text" id="objectName" name="objectName" required>
+            </div>
+    
+            <div class="form-group">
+                <button type="submit">Gönder</button>
+            </div>
+    
+            <div class="form-group">
+                <button type="button" id="addButton">Buton Ekle</button>
+                <button type="button" id="addTextbox">Textbox Ekle</button>
+                <button type="button" style="background-color: red;" id="addGauge">Gösterge Ekle</button>
+                <button type="button" style="background-color: purple; color: white;" id="addNeedle">İbre Ekle</button>
+            </div>
+    
+            <div id="dynamicElements"></div>
+            <input type="hidden" name="buttonNames" id="buttonNames">
+            <input type="hidden" name="buttonDescriptions" id="buttonDescriptions">
+            <input type="hidden" name="buttonStates" id="buttonStates">
+            <input type="hidden" name="buttonPins" id="buttonPins">
+
+            <input type="hidden" name="textboxValues" id="textboxValues">
+            <input type="hidden" name="textboxDescriptions" id="textboxDescriptions">
+            <input type="hidden" name="textboxPins" id="textboxPins">
+
+            <input type="hidden" name="gaugeValues" id="gaugeValues">
+            <input type="hidden" name="gaugeDescriptions" id="gaugeDescriptions">
+            <input type="hidden" name="gaugePins" id="gaugePins">
+            <!-- buraya gauge pin gelecek-->
+
+            <input type="hidden" name="needleValues" id="needleValues">
+            <input type="hidden" name="needleDescriptions" id="needleDescriptions">
+            <input type="hidden" name="needlePins" id="needlePins">
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addButton = document.getElementById('addButton');
+            const addTextbox = document.getElementById('addTextbox');
+            const addGauge = document.getElementById('addGauge');
+            const addNeedle = document.getElementById('addNeedle');
+            const dynamicElements = document.getElementById('dynamicElements');
+
+            addButton.addEventListener('click', function() {
+                const buttonId = Date.now(); // Unique ID for the button
+                const buttonElement = document.createElement('div');
+                buttonElement.classList.add('dynamic-element');
+                buttonElement.innerHTML = `
+                    <div>
+                        <p style="font-weight: bold;">Buton Ekle</p>
+                        <input type="text" name="buttonName[]" placeholder="Buton Adı" required>
+                        <input type="text" name="buttonDescription[]" placeholder="Buton Açıklaması" required>
+                        <input type="text" name="buttonPin[]" placeholder="Pin No" required>
+                        <label class="switch">
+                            <input type="checkbox" name="buttonToggle[]" value="1">
+                            <span class="slider round"></span>
+                        </label>
+                        <input type="hidden" name="buttonId[]" value="${buttonId}">
+                        <button type="button" class="removeButton"></button>
+                    </div>
+                `;
+                dynamicElements.appendChild(buttonElement);
+            });
+
+            addTextbox.addEventListener('click', function() {
+                const textboxId = Date.now(); // Unique ID for the textboxes
+                const textboxElement = document.createElement('div');
+                textboxElement.classList.add('dynamic-element');
+                textboxElement.innerHTML = `
+                    <div>
+                         <p style="font-weight: bold;">Textbox Ekle</p>
+                        <input type="text" name="textboxValue[]" placeholder="Textbox Adı" required>
+                        <input type="hidden" name="textbox_id_value_${textboxId}" value="${textboxId}">
+                    </div>
+                    <div>
+                        <input type="text" name="textboxDescription[]" placeholder="Textbox Açıklaması" required>
+                        <input type="hidden" name="textbox_id_description_${textboxId}" value="${textboxId}">
+                    </div>
+                    <div>
+                        <input type="text" name="textboxPin[]" placeholder="Pin No" required>
+                        <input type="hidden" name="textbox_id_pin_${textboxId}" value="${textboxId}">
+                    </div>
+                    <button type="button" class="removeButton"></button>
+                `;
+                dynamicElements.appendChild(textboxElement);
+            });
+
+            addGauge.addEventListener('click', function() {
+                const gaugeId = Date.now(); // Unique ID for the gauge
+                const gaugeElement = document.createElement('div');
+                gaugeElement.classList.add('dynamic-element', 'gauge'); // Add gauge class for styling
+                gaugeElement.innerHTML = `
+                    <div>
+                         <p style="font-weight: bold;">Gösterge Ekle</p>
+                        <input type="text" name="gaugeValue[]" placeholder="Gösterge Adı" required>
+                        <input type="hidden" name="gauge_id_value_${gaugeId}" value="${gaugeId}">
+                    </div>
+                    <div>
+                        <input type="text" name="gaugeDescription[]" placeholder="Gösterge Açıklaması" required>
+                        <input type="hidden" name="gauge_id_description_${gaugeId}" value="${gaugeId}">
+                    </div>
+                    <div>
+                        <input type="text" name="gaugePin[]" placeholder="Pin No" required>
+                        <input type="hidden" name="gauge_id_pin_${gaugeId}" value="${gaugeId}">
+                    </div>
+                    <button type="button" class="removeButton"></button>
+                `;
+                dynamicElements.appendChild(gaugeElement);
+            });
+
+            addNeedle.addEventListener('click', function() {
+                const needleId = Date.now(); // Unique ID for the needle
+                const needleElement = document.createElement('div');
+                needleElement.classList.add('dynamic-element', 'needle'); // Add needle class for styling
+                needleElement.innerHTML = `
+                    <div>
+                         <p style="font-weight: bold;">İbre Ekle</p>
+                        <input type="text" name="needleValue[]" placeholder="İbre Adı" required>
+                        <input type="hidden" name="needle_id_value_${needleId}" value="${needleId}">
+                    </div>
+                    <div>
+                        <input type="text" name="needleDescription[]" placeholder="İbre Açıklaması" required>
+                        <input type="hidden" name="needle_id_description_${needleId}" value="${needleId}">
+                    </div>
+                    <div>
+                        <input type="text" name="needlePin[]" placeholder="Pin No" required>
+                        <input type="hidden" name="needle_id_pin_${needleId}" value="${needleId}">
+                    </div>
+                    <button type="button" class="removeButton"></button>
+                `;
+                dynamicElements.appendChild(needleElement);
+            });
+
+            document.getElementById('dynamicForm').addEventListener('submit', function() {
+                const buttonNames = [];
+                const buttonDescriptions = [];
+                const buttonStates = [];
+                const buttonPins = [];
+                const textboxValues = [];
+                const textboxDescriptions = [];
+                const textboxPins = [];
+                const gaugeValues = [];
+                const gaugeDescriptions = [];
+                const gaugePins = [];
+                const needleValues = [];
+                const needleDescriptions = [];
+                const needlePins = [];
+
+                document.querySelectorAll('input[name="buttonName[]"]').forEach(input => buttonNames.push(input.value));
+                document.querySelectorAll('input[name="buttonDescription[]"]').forEach(input => buttonDescriptions.push(input.value));
+                document.querySelectorAll('input[name="buttonToggle[]"]').forEach(input => buttonStates.push(input.checked ? 1 : 0));
+                document.querySelectorAll('input[name="buttonPin[]"]').forEach(input => buttonPins.push(input.value));
+
+                document.querySelectorAll('input[name="textboxValue[]"]').forEach(input => textboxValues.push(input.value));
+                document.querySelectorAll('input[name="textboxDescription[]"]').forEach(input => textboxDescriptions.push(input.value));
+                document.querySelectorAll('input[name="textboxPin[]"]').forEach(input => textboxPins.push(input.value));
+
+                document.querySelectorAll('input[name="gaugeValue[]"]').forEach(input => gaugeValues.push(input.value));
+                document.querySelectorAll('input[name="gaugeDescription[]"]').forEach(input => gaugeDescriptions.push(input.value));
+                document.querySelectorAll('input[name="gaugePin[]"]').forEach(input => gaugePins.push(input.value));
+
+                document.querySelectorAll('input[name="needleValue[]"]').forEach(input => needleValues.push(input.value));
+                document.querySelectorAll('input[name="needleDescription[]"]').forEach(input => needleDescriptions.push(input.value));
+                document.querySelectorAll('input[name="needlePin[]"]').forEach(input => needlePins.push(input.value));
+
+                document.getElementById('buttonNames').value = JSON.stringify(buttonNames);
+                document.getElementById('buttonDescriptions').value = JSON.stringify(buttonDescriptions);
+                document.getElementById('buttonStates').value = JSON.stringify(buttonStates);
+                document.getElementById('buttonPins').value = JSON.stringify(buttonPins);
+                document.getElementById('textboxValues').value = JSON.stringify(textboxValues);
+                document.getElementById('textboxDescriptions').value = JSON.stringify(textboxDescriptions);
+                document.getElementById('textboxPins').value = JSON.stringify(textboxPins);
+                document.getElementById('gaugeValues').value = JSON.stringify(gaugeValues);
+                document.getElementById('gaugeDescriptions').value = JSON.stringify(gaugeDescriptions);
+                document.getElementById('gaugePins').value = JSON.stringify(gaugePins);
+
+                document.getElementById('needleValues').value = JSON.stringify(needleValues);
+                document.getElementById('needleDescriptions').value = JSON.stringify(needleDescriptions);
+                document.getElementById('needlePins').value = JSON.stringify(needlePins);
+            });
+            dynamicElements.addEventListener('click', function(event) {
+                if (event.target.classList.contains('removeButton')) {
+                    const dynamicElement = event.target.closest('.dynamic-element');
+                    dynamicElement.remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

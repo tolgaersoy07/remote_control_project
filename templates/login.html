@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GİRİŞ</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">   
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
+</head>
+<body>
+    <h1>SİSTEME GİRİŞ PANELİ</h1>
+    <p id="error">{{error}}</p>
+
+    <form id="loginForm" action="/login" method="POST">
+        <div class="form-group">
+            <label for="loginUsername">Kullanıcı Adı:</label>
+            <input type="text" id="loginUsername" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Şifre:</label>
+            <input type="password" id="loginPassword" name="password" required>
+        </div>
+        <div class="g-recaptcha" data-sitekey="{{data_sitekey}}"></div>
+        <div class="form-group">
+            <input type="submit" id="enter" value="GİRİŞ YAP">
+        </div>
+    </form>
+
+    <form action="/forgetted_info" method="POST">
+        <div class="form-group">
+            <input type="submit" id="enter" name="action" value="KURTARMA">
+        </div>
+    </form>
+  
+    <h2 style="color:blue;">!!! ANONİM ŞİRKETİ !!!</h2>
+</body>
+</html>

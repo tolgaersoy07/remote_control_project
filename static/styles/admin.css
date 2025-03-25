@@ -1,0 +1,63 @@
+body {
+    background-color: bisque;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: blue;
+    margin-top: 30px;
+    font-size: 36px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+form.block {
+    background-color:#4CAF50;
+    color: white;
+    padding: 20px;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+form.block:hover {
+    background-color: #45a049;
+    transform: translateY(-5px);
+}
+
+form.block img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    color: #d4d4d4;
+}
+
+
+form.block button {
+    font-size: 20px; /* Yazı boyutunu büyütür */
+    font-weight: bold; /* Yazıyı kalınlaştırır (isteğe bağlı) */
+}

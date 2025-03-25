@@ -1,0 +1,140 @@
+body {
+    background-color: bisque;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    background-color: pink;  /* Konteynır rengi pink olarak belirlendi */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;  /* Başlık yazı boyutu büyütüldü */
+    margin-bottom: 20px;
+}
+
+.options {
+    margin-bottom: 20px;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 15px;  /* Aralığı artırarak daha belirgin hale getirildi */
+    font-size: 20px;  /* Seçim metin boyutu büyütüldü */
+}
+
+.option-button {
+    background-color: #28a745;  /* Yeşil renk */
+    color: #fff;
+    border: none;
+    padding: 16px 32px;  /* Buton içi padding artırıldı */
+    font-size: 20px;  /* Buton yazı boyutu büyütüldü */
+    border-radius: 6px;  /* Buton köşe yuvarlama artırıldı */
+    cursor: pointer;
+    margin: 10px;
+}
+
+.option-button:hover {
+    background-color: #218838;
+}
+
+.reset-options {
+    margin-bottom: 20px;
+}
+
+.input-field {
+    width: calc(50% - 10px);  /* Yüzde 50 genişlik, yan yana yerleştirmek için */
+    padding: 12px;  /* Girdi alanı padding artırıldı */
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;  /* Girdi alanı köşe yuvarlama artırıldı */
+    font-size: 16px;  /* Girdi alanı yazı boyutu artırıldı */
+}
+
+.submit-button {
+    background-color: #28a745;  /* Yeşil renk */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;  /* Gönder butonu içi padding artırıldı */
+    font-size: 18px;  /* Gönder butonu yazı boyutu büyütüldü */
+    border-radius: 16px;  /* Gönder butonu köşe yuvarlama artırıldı */
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+/* E-posta ve telefon input alanlarını yan yana yerleştirir */
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.input-group .input-field {
+    flex: 1;
+    margin: 0;  /* Aralığı sıfırlamak için */
+}
+
+
+/* ReCAPTCHA'nın ortalanması için kaplayıcı */
+.recaptcha-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; /* ReCAPTCHA'nın etrafındaki boşluk */
+}
+
+/* Diğer stilleriniz burada olabilir */
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.option-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.input-field {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.submit-button {
+    background-color: green;
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+

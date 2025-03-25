@@ -1,0 +1,278 @@
+body {
+    font-family: 'Arial', sans-serif; /* 'Arial' fontu ve alternatif olarak sans-serif */
+    background-color: bisque; /* Sayfa arka plan rengi */
+    margin: 0;
+    padding: 0;
+}
+
+/* Tablo ve genel stiller */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Hücreler arasındaki boşlukları kaldırır */
+    table-layout: fixed; /* Sütun genişliklerini sabitler */
+    border: 2px solid #444; /* Tablonun dış sınır çizgisi */
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 2px solid #989898; /* Hücreler arasındaki sınır çizgisi */
+    width: 14%; /* Her sütun ekranın %14'ü kadar genişleyebilir */
+    overflow-wrap: break-word; /* Uzun kelimeleri veya verileri alt satıra geçirir */
+    word-wrap: break-word; /* İçeriğin taşmasını önler */
+}
+
+thead {
+    background-color: #3e3a5e; /* Başlık satırlarının arka plan rengi */
+    color: white; /* Başlık metin rengi */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: white; /* Tek numaralı satırların arka plan rengi */
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgb(195, 195, 195); /* Çift numaralı satırların arka plan rengi */
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 600px) {
+    table {
+        border: 0; /* Tablonun dış sınırını kaldırır */
+    }
+
+    thead {
+        display: none; /* Başlık satırlarını gizler */
+    }
+
+    tr {
+        display: block;
+        margin-bottom: 0.625em; /* Satırlar arasında boşluk bırakır */
+    }
+
+    td {
+        display: block;
+        text-align: right;
+        position: relative;
+        padding-left: 50%; /* Sol boşluk bırakır */
+    }
+
+    td::before {
+        content: attr(data-label); /* Data-label içeriğini ekler */
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 10px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+}
+
+/* Input alanı ve paragraf */
+input.input-field {
+    width: 100%;
+    box-sizing: border-box; /* İç boşluk ve sınır dahil genişlik hesaplaması */
+    border: 2px solid #ddd; /* Kenar rengi */
+    border-radius: 5px; /* Kenar yuvarlama */
+    padding: 8px; /* İç boşluk */
+    font-size: 14px; /* Yazı boyutu */
+    margin: 0 0 15px 0; /* Alt boşluk */
+}
+
+input.input-field.active {
+    border-color: green; /* Aktifken kenar rengini yeşil yapar */
+    border-width: 5px; /* Kenar genişliği */
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Üst üste sıralanmasını sağlar */
+    gap: 5px; /* Boşluk */
+}
+
+p {
+   margin-top:0px;
+    max-width: 200px; /* Paragrafın maksimum genişliği */
+    word-wrap: break-word; /* Uzun kelimeleri alt satıra taşır */
+}
+
+.container_div {
+    flex-wrap: wrap; /* Satırları sarar */
+    display: flex;
+    align-items: center; /* Ortalar */
+    margin: 10px 0; /* Üst ve alt boşluk */
+}
+
+.center_class {
+    margin: 10px; /* Boşluk */
+    padding: 0; /* Padding kaldırılır */
+}
+
+/* Hücrelerin üzerine gelindiğinde arka plan rengini değiştir */
+tbody tr:hover {
+    background-color: aqua; /* Hücre üzerine gelindiğinde değişen renk */
+}
+
+/* Arama Alanı */
+.search-container {
+    margin-bottom: 10px; /* Alt boşluk */
+}
+
+#searchInput {
+    font-size: 30px; /* Yazı boyutunu artırır */
+    height: 50px; /* Yükseklik */
+    width: 100%; /* Genişlik */
+    max-width: 600px; /* Maksimum genişlik */
+    padding: 12px; /* İç boşluk */
+    border: 2px solid #ddd; /* Kenar rengi */
+    border-radius: 100px; /* Kenar yuvarlama */
+    box-sizing: border-box; /* Padding ve border'ı toplam genişliğe dahil eder */
+}
+
+.btn-delete
+{
+    background-color: #4CAF50; 
+    width: 80px;
+    height: 40px;
+    border:none;
+    border-radius: 10px;
+}
+.btn-delete:hover
+{
+    background-color:#17791a;
+}
+
+
+    /* Kırmızı onay penceresi için stil */
+    .confirmation-dialog {
+        border-radius: 20px;
+        text-align: center;
+        width: 600px;
+        height: 280px;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color:#f65f54;
+        color: white;
+        border: 1px solid black;
+        z-index: 1000;
+    }
+    .confirmation-dialog button {
+        font-size: 1.4em;
+        border-radius: 5px;
+        width: 250px;
+        height: 60px;
+        margin: 5px;
+        padding: 10px;
+       
+        border: none;
+        cursor: pointer;
+    }
+    .confirmation-dialog .confirm {
+        background-color:white; 
+    }
+    .confirmation-dialog .cancel {
+        background-color:white; 
+       
+    }
+    .confirmation-dialog .confirm:hover {
+        background-color:rgb(180, 178, 178); 
+    }
+    .confirmation-dialog .cancel:hover {
+        background-color:rgb(180, 178, 178); 
+    }
+
+
+    ul {
+        padding-left: 0; /* Varsayılan sol boşluğu kaldırır */
+    }
+
+    li {
+        margin-left: 10px; /* Sol kenar boşluğunu sıfırlar */
+        padding-left: 0; /* Sol iç boşluğu sıfırlar */
+    }
+
+    .submit-button {
+        font-size: 1.1em;
+        background-color: #17791a;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        position: fixed;
+        top: 70px; /* Üstten 20px uzaklık */
+        right: 20px; /* Sağdan 20px uzaklık */
+        z-index: 1000; /* Diğer öğelerin üstünde görünmesi için yüksek z-index */
+    }
+    .submit-button:hover{
+        background-color: rgb(136, 206, 66);
+    }
+    .submit-button.active {
+        background-color: orange; /* Aktifken butonun rengini turuncu yapar */
+    }
+
+
+    .progress-container {
+        max-width: 2.7cm; /* Sabit genişlik */
+        height: 0.5cm; /* 0.5cm yükseklik */
+        background: #ddd; /* Arka plan rengi */
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 15px;
+       
+    }
+    
+    .progress-bar {
+       
+        height: 100%;
+        border-radius: 5px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%; /* Sabit genişlikte */
+        transition: background-color 0.5s; /* Yalnızca arka plan renginin geçişi */
+    }
+    
+    .progress-text {
+      
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #000;
+    }
+    
+    @keyframes redWhiteBlink {
+        0% { background-color: red; } /* Kırmızı */
+        50% { background-color: white; } /* Beyaz */
+        100% { background-color: red; } /* Kırmızı */
+    }
+    
+    .blinking-progress-bar {
+        animation: redWhiteBlink 1s infinite; /* Animasyon süresi ve tekrar */
+    }
+
+    @keyframes yellowWhiteBlink {
+        0% { width: 0%; } /* Başlangıçta boş */
+    50% { width: 100%; } /* Dolma */
+    100% { width: 0%; } /* Boşalma */
+    }
+    
+    .blinking-progress-bar1 {
+        animation: yellowWhiteBlink 2s infinite; /* Animasyon süresi ve tekrar */
+    }
+    
+
+   .center_pp
+   {
+    margin-top: 15px;
+    background-color: antiquewhite;
+ 
+   }
+
+
+

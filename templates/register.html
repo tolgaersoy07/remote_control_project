@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KAYIT</title>
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='images/logo.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forward_button.css') }}">
+    <style>
+        #parentField {
+            display: none; /* Başlangıçta gizli */
+        }
+    </style>
+</head>
+<body>
+
+    <form id="logoutForm" method="POST" action="/logout">
+        <button type="submit">{{session['userID']}} : Çıkış Yap</button>
+    </form>
+    <form id="backForm" method="POST" action="/turn_back">
+        <button id="backButton">Geri Git</button>
+        <input type="hidden" name="hidden_data" id="hiddenData" value="admin.html">
+    </form>
+
+    <form id="registrationForm" action="/register" method="POST">
+        <h1>ÜYE KAYIT PANELİ</h1>
+        <p id="error">{{eregister}}</p>
+        <div class="form-group">
+            <label for="registerName">Ad:</label>
+            <input type="text" id="registerName" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerSurname">Soyad:</label>
+            <input type="text" id="registerSurname" name="surName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerUsername">Kullanıcı Adı:</label>
+            <input type="text" id="registerUsername" name="userID" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerPassword">Şifre:</label>
+            <input type="password" id="registerPassword" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerEmail">E-posta:</label>
+            <input type="email" id="registerEmail" name="eMail" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerPhone">Telefon Numarası:</label>
+            <input type="tel" id="registerPhone" name="pNumber" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerAddress">Adres:</label>
+            <input type="text" id="registerAddress" name="userAddress" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerTCNo">TC Kimlik No:</label>
+            <input type="text" id="registerTCNo" name="tcNumber" required>
+        </div>
+
+        <div class="form-group">
+            <label for="registerStatus">Kullanıcı Durumu:</label><br>
+            <input type="radio" id="individual" name="status" value="Bireysel" onclick="toggleCompanyFields()" checked>
+            <label for="individual">Bireysel</label><br>
+            <input type="radio" id="corporate" name="status" value="Kurumsal" onclick="toggleCompanyFields()">
+            <label for="corporate">Kurumsal</label>
+        </div>
+
+        <div id="companyFields" style="display: none;">
+            <div class="form-group">
+                <label for="registerCompanyName">Şirket Adı:</label>
+                <input type="text" id="registerCompanyName" name="cName">
+            </div>
+
+            <div class="form-group">
+                <label for="registerTaxNo">Vergi Numarası:</label>
+                <input type="text" id="registerTaxNo" name="taxNumber">
+            </div>
+
+            <div class="form-group">
+                <label for="registerCompanyAddress">Şirket Adresi:</label>
+                <input type="text" id="registerCompanyAddress" name="cAddress">
+            </div>
+
+            <div class="form-group">
+                <label for="registerCompanyPhone">Şirket Telefon Numarası:</label>
+                <input type="tel" id="registerCompanyPhone" name="cNumber">
+            </div>
+        </div>
+
+
+        {% if session['userID'] == 'admin' %}
+    <div class="form-group">
+        <label for="userType">Kullanıcı Tipi:</label>
+        <select id="userType" name="userType" required onchange="toggleParentField()">
+            <option value="" disabled selected>Seçiniz</option>
+            <option value="2">2-) ALT ADMİN</option>
+            <option value="3">3-) MÜŞTERİ</option>
+        </select>
+    </div>
+
+    <div id="parentField" class="form-group" style="display: none;">
+        <label for="parent">Sahibi:</label>
+        <select id="parent" name="parent" required>
+            <option value="" disabled selected>Seçiniz</option>
+            {% for userID, fullName in array.items() %}
+                <option value="{{ userID }}">{{ fullName }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endif %}
+
+
+    
+
+
+    
+
+        <div class="form-group">
+            <input type="submit" id="enter" value="KAYIT OL">
+        </div>
+    </form>
+
+    <script>
+         function toggleParentField() {
+        var userType = document.getElementById('userType').value;
+        var parentField = document.getElementById('parentField');
+        var parentSelect = document.getElementById('parent');
+
+        if (userType === '3') { // MÜŞTERİ seçiliyse
+            parentField.style.display = 'block';
+            parentSelect.setAttribute('required', 'required');
+        } else {
+            parentField.style.display = 'none';
+            parentSelect.removeAttribute('required');
+        }
+    }
+
+    // Sayfa yüklendiğinde seçili olan kullanıcı tipine göre parentField'ın durumunu ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleParentField();
+    });
+       
+
+        function toggleCompanyFields() {
+            var corporate = document.getElementById("corporate");
+            var companyFields = document.getElementById("companyFields");
+
+            if (corporate.checked) {
+                companyFields.style.display = "block";
+            } else {
+                companyFields.style.display = "none";
+            }
+        }
+    </script>
+
+    <h2 style="color:blue;">!!! ANONİM ŞİRKETİ !!!</h2>
+</body>
+</html>

@@ -1,0 +1,48 @@
+#logoutForm {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+      
+    }
+
+    #logoutForm button {
+        background-color: #4CAF50; /* Yeşil arka plan rengi */
+        color: white; /* Beyaz yazı rengi */
+        border: none; /* Kenarlık yok */
+        padding: 10px 20px; /* İç boşluk */
+        text-align: center; /* Metni ortala */
+        text-decoration: none; /* Alt çizgi yok */
+        display: inline-block; /* Satır içi blok */
+        font-size: 16px; /* Yazı boyutu */
+        border-radius: 5px; /* Köşe yuvarlaklığı */
+        cursor: pointer; /* İmleç işareti */
+        transition: background-color 0.3s ease; /* Geçiş efekti */
+    }
+
+    #logoutForm button:hover {
+        background-color: #45a049; /* Hover durumunda daha koyu yeşil */
+    }
+
+    #backForm {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+    }
+
+    #backButton {
+        background-color: #4CAF50; /* Yeşil arka plan rengi */
+        color: white; /* Beyaz yazı rengi */
+        border: none; /* Kenarlık yok */
+        padding: 10px 20px; /* İç boşluk */
+        text-align: center; /* Metni ortala */
+        text-decoration: none; /* Alt çizgi yok */
+        display: inline-block; /* Satır içi blok */
+        font-size: 16px; /* Yazı boyutu */
+        border-radius: 5px; /* Köşe yuvarlaklığı */
+        cursor: pointer; /* İmleç işareti */
+        transition: background-color 0.3s ease; /* Geçiş efekti */
+    }
+
+    #backButton:hover {
+        background-color: #45a049; /* Hover durumunda daha koyu yeşil */
+    }
